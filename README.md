@@ -14,7 +14,7 @@ Validation strategy matters more than model choice when your data has time struc
 
 ## What is in this repo
 
-`src/run_analysis.py` is the end-to-end pipeline. `notebooks/bike-sharing-analysis.ipynb` is the narrative walk-through. `src/_palette.py` is the project's leafy-green + sunrise-orange palette. `figures/` has the hour-weekday heatmap, monthly seasonality line, temperature effect, the CV-strategy comparison, and a time-series CV animation showing the training windows slide forward. `outputs/` holds the CV comparison table.
+`src/run_analysis.py` is the end-to-end pipeline — it fits the naive baseline, Ridge, and LightGBM under both random k-fold and TimeSeriesSplit and writes the CV comparison table. `scripts/build_teaching_animation.py` regenerates the two-panel teaching animation that contrasts expanding-window folds with random folds. `notebooks/analysis.ipynb` is the Kaggle-publishable narrative walk-through. `figures/` carries the grouped-bar CV-comparison hero, an hour-by-weekday heatmap, the monthly seasonality line, the temperature-effect curve, and the teaching animation. `outputs/` holds the CV comparison table.
 
 `REPORT.md` is the long-form analysis.
 

@@ -12,15 +12,14 @@ import json
 import sys
 from pathlib import Path
 
-import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
 from lightgbm import LGBMRegressor
 from sklearn.linear_model import Ridge
-from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-from sklearn.model_selection import TimeSeriesSplit, KFold
+from sklearn.metrics import mean_squared_error
+from sklearn.model_selection import KFold, TimeSeriesSplit
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _palette import BIKE_SHARING as P, apply_to_mpl  # noqa: E402
@@ -188,39 +187,10 @@ def main():
     fig.savefig(fig_dir / "cv-strategy-comparison.png")
     plt.close(fig)
 
-    # Animation: walk through the time-series folds visually
-    n_splits = 5
-    tss_anim = TimeSeriesSplit(n_splits=n_splits)
-    fig, ax = plt.subplots(figsize=(11, 3.5))
-    ax.set_xlim(0, len(X)); ax.set_ylim(-0.5, n_splits - 0.5)
-    ax.set_xlabel("Observation index (ordered by time)")
-    ax.set_ylabel("Fold")
-    ax.set_title("Time-series 5-fold: train grows, validation slides forward")
-    ax.set_yticks(range(n_splits))
-    ax.set_yticklabels([f"fold {i+1}" for i in range(n_splits)])
-
-    fold_patches = []
-    for fold_idx, (tr, te) in enumerate(tss_anim.split(X)):
-        train_rect = plt.Rectangle((tr[0], fold_idx - 0.35), tr[-1] - tr[0], 0.7, color=P.muted, alpha=0)
-        val_rect = plt.Rectangle((te[0], fold_idx - 0.35), te[-1] - te[0], 0.7, color=P.accent, alpha=0)
-        ax.add_patch(train_rect); ax.add_patch(val_rect)
-        fold_patches.append((train_rect, val_rect))
-
-    ax.legend(handles=[plt.Rectangle((0,0),1,1,color=P.muted,alpha=0.85, label="Train"),
-                        plt.Rectangle((0,0),1,1,color=P.accent,alpha=0.85, label="Validate")],
-              loc="upper right")
-
-    def animate(i):
-        # Reveal folds one at a time
-        for j, (tr, va) in enumerate(fold_patches):
-            alpha_tr = 0.85 if j <= i else 0.0
-            alpha_va = 0.9 if j <= i else 0.0
-            tr.set_alpha(alpha_tr); va.set_alpha(alpha_va)
-        return [p for pair in fold_patches for p in pair]
-
-    anim = animation.FuncAnimation(fig, animate, frames=n_splits, interval=900, blit=False)
-    anim.save(str(fig_dir / "timeseries-cv-animation.gif"), writer="pillow", fps=1)
-    plt.close(fig)
+    # The teaching animation (34 frames at 200ms, two-panel TimeSeriesSplit vs
+    # random k-fold with per-fold Log-RMSLE scoreboards) is built by
+    # scripts/build_teaching_animation.py so the reveal cadence, contrast panel,
+    # and score annotations stay in one place.
 
     summary = {
         "rows": int(len(df)),
