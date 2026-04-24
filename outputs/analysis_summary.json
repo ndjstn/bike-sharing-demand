@@ -1,0 +1,45 @@
+{
+  "rows": 17379,
+  "date_range": [
+    "2011-01-01",
+    "2012-12-31"
+  ],
+  "cv_comparison": [
+    {
+      "model": "naive_seasonal",
+      "cv_strategy": "random_kfold",
+      "mean_rmsle": 0.6438,
+      "std_rmsle": 0.0062
+    },
+    {
+      "model": "naive_seasonal",
+      "cv_strategy": "time_series",
+      "mean_rmsle": 0.5086,
+      "std_rmsle": 0.1037
+    },
+    {
+      "model": "ridge",
+      "cv_strategy": "random_kfold",
+      "mean_rmsle": 1.1511,
+      "std_rmsle": 0.0098
+    },
+    {
+      "model": "ridge",
+      "cv_strategy": "time_series",
+      "mean_rmsle": 1.23,
+      "std_rmsle": 0.0966
+    },
+    {
+      "model": "lightgbm",
+      "cv_strategy": "random_kfold",
+      "mean_rmsle": 0.4055,
+      "std_rmsle": 0.0046
+    },
+    {
+      "model": "lightgbm",
+      "cv_strategy": "time_series",
+      "mean_rmsle": 0.5946,
+      "std_rmsle": 0.0825
+    }
+  ]
+}

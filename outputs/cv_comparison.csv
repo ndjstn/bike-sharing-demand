@@ -1,0 +1,7 @@
+model,cv_strategy,mean_rmsle,std_rmsle
+naive_seasonal,random_kfold,0.6438,0.0062
+naive_seasonal,time_series,0.5086,0.1037
+ridge,random_kfold,1.1511,0.0098
+ridge,time_series,1.23,0.0966
+lightgbm,random_kfold,0.4055,0.0046
+lightgbm,time_series,0.5946,0.0825
